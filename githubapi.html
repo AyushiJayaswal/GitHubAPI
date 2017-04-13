@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title> Get Github </title>
+		<script type="text/javascript" src="jquery-3.2.1.js"></script>
+	</head>
+	<body>
+		<H1>Get Github!</H1>
+		<br>
+		<h2> Enter a github username below and then click 'Get repos' button </h2>
+		<br>
+		<input type="text" name="ghusername" id="ghusername" placeholder="Github username..." >
+		<a href="#" id="ghsubmitbtn">Get repos</a>
+		<div id="ghapidata" class="clearfix"></div>
+		
+	<script type="text/javascript">
+	$(function()
+	{
+		$('#ghsubmitbtn').on('click',function(e)
+			{
+			e.preventDefault();
+			$('#ghapidata').html('<div id="loader"><img src="loader.jpg" alt="loading..."></div>');
+			var username=$('#ghusername').val();
+			var repouri='https://api.github.com/users/'+username+'/repos';
+			var repositories;
+			$.getJSON(repouri, function(json)
+				{
+				repositories=json;
+				outputPageContent();
+				});
+			var outhtml='<h2>'+username+'</h2>';
+			function outputPageContent()
+				{
+				if(repositories.length==0)
+					{
+					outhtml=outhtml+'<p>No repos!</p>';
+					}
+				else
+					{
+					outhtml=outhtml+'<p>Repos List:</p><ul>';
+					$.each(repositories, function(index)
+						{
+						outhtml=outhtml+'<li><a href="'+repositories[index].html_url+'">'+repositories[index].name+'</a></li>';
+						});
+					outhtml = outhtml + '</ul></div>'; 
+					}
+				$('#ghapidata').html(outhtml);
+				}
+			});
+	});
+	</script>
+	</body>
+</html>
