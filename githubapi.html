@@ -3,15 +3,69 @@
 	<head>
 		<title> Get Github </title>
 		<script type="text/javascript" src="jquery-3.2.1.js"></script>
+		<style>
+		a{
+		text-decoration:none;
+		color:black;
+		}
+		a#ghsubmitbtn{
+		text-decoration:none;
+		color:white;
+		text-shadow: 3px 2px black;
+		}
+		div.heading {
+		color:white;
+		text-shadow: 3px 2px black;
+		text-align:center;
+		font-size:200%;
+		}
+		h2#instruct {
+		color:white;
+		text-shadow: 3px 2px black;
+		}
+		p#pressbutton{
+		display:inline-block;
+		font-size:200%;
+		border-style:solid;
+		border-color:white;
+		padding:5px;
+		}
+		div.box{
+		background-color:rgba(34,34,34,0.75);
+		border-style:inset;
+		border-radius: 5px;
+		border-width:10px;
+		margin:125px;
+		padding:70px;
+		}
+		li{
+		display:inline-block;
+		background-color:rgb(204,255,153);
+		margin:30px;
+		padding:20px;
+		border-style:inset;
+		font-size:125%;
+		border-radius: 15px;
+		}
+		body{
+		background-image: url("bg2.jpg");
+		background-repeat:no-repeat;
+		background-position:center;
+		background-attachment:fixed;
+		background-size:cover;	<!--cover or contain-->
+		}
+		</style>
 	</head>
 	<body>
-		<H1>Get Github!</H1>
+		<div class="heading"><H1>Get Github!</H1></div>
 		<br>
-		<h2> Enter a github username below and then click 'Get repos' button </h2>
+		<div class="box">
+		<h2 id="instruct"> Enter a github username below and then click 'Get repos' button </h2>
 		<br>
-		<input type="text" name="ghusername" id="ghusername" placeholder="Github username..." >
-		<a href="#" id="ghsubmitbtn">Get repos</a>
+		<input type="text" name="ghusername" id="ghusername" placeholder="Github username..." style="width:500px; heigth:100px">
+		<p id="pressbutton"><a href="#" id="ghsubmitbtn">Get repos</a></p>
 		<div id="ghapidata" class="clearfix"></div>
+		</div>
 		
 	<script type="text/javascript">
 	$(function()
@@ -19,7 +73,8 @@
 		$('#ghsubmitbtn').on('click',function(e)
 			{
 			e.preventDefault();
-			$('#ghapidata').html('<div id="loader"><img src="loader.jpg" alt="loading..."></div>');
+			$('#ghapidata').html('<div id="loader"><img src="loader.gif" width="50px" height="50px" alt="loading..."></div>');
+			
 			var username=$('#ghusername').val();
 			var repouri='https://api.github.com/users/'+username+'/repos';
 			var repositories;
@@ -28,7 +83,7 @@
 				repositories=json;
 				outputPageContent();
 				});
-			var outhtml='<h2>'+username+'</h2>';
+			var outhtml=' ';
 			function outputPageContent()
 				{
 				if(repositories.length==0)
@@ -37,7 +92,7 @@
 					}
 				else
 					{
-					outhtml=outhtml+'<p>Repos List:</p><ul>';
+					outhtml=outhtml+'<ul>';
 					$.each(repositories, function(index)
 						{
 						outhtml=outhtml+'<li><a href="'+repositories[index].html_url+'">'+repositories[index].name+'</a></li>';
